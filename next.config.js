@@ -1,7 +1,26 @@
 /** @type {import('next').NextConfig} */
+const API_KEY = process.env.API_KEY;
+
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-}
+  async redirects() {
+    return [
+      {
+        source: "/old/:path*",
+        destination: "/form/:path*",
+        permanent: false,
+      },
+    ];
+  },
 
-module.exports = nextConfig
+  async rewrites() {
+    return [
+      {
+        source: "/api/movies",
+        destination: `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`,
+      },
+    ];
+  },
+};
+
+module.exports = nextConfig;
